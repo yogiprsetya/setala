@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { cn } from '~/utils/css';
 import { ThemeProvider } from 'next-themes';
+import { Sheet } from '~/components/ui/sheet';
 
 const fontSans = Inter({
   subsets: ['latin'],
@@ -20,9 +21,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
-        <ThemeProvider attribute="class" defaultTheme="system">
+    <html suppressHydrationWarning lang="en">
+      <body
+        className={cn('min-h-screen font-sans antialiased bg-background/50', fontSans.variable)}
+      >
+        <ThemeProvider attribute="class" defaultTheme="dark">
           {children}
         </ThemeProvider>
       </body>
