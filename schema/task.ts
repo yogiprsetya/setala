@@ -1,7 +1,7 @@
 import { serial, text, timestamp, pgTable, integer, pgEnum } from 'drizzle-orm/pg-core';
 import { project } from './project';
 
-const statusEnum = pgEnum('status', ['TODO', 'IN_PROGRESS', 'DONE']);
+export const taskStatusEnum = pgEnum('status', ['TODO', 'IN_PROGRESS', 'DONE']);
 
 export const task = pgTable('task', {
   createdAt: timestamp('created_at'),
@@ -13,5 +13,5 @@ export const task = pgTable('task', {
   name: text('name'),
   isArchive: text('is_archive'),
   projectId: integer('project_id').references(() => project.id),
-  status: statusEnum('status'),
+  status: taskStatusEnum('status'),
 });
