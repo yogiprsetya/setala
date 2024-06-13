@@ -1,3 +1,6 @@
+import { Header } from './_components/Header';
+import Sidebar from './_components/Sidebar';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -5,11 +8,12 @@ export default function RootLayout({
 }>) {
   return (
     <div className="flex">
-      <aside>
-        <ul />
-      </aside>
+      <Sidebar />
 
-      <main>{children}</main>
+      <main className="grow">
+        <Header />
+        <div className="p-6">{children}</div>
+      </main>
     </div>
   );
 }
