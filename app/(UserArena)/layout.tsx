@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <If condition={isClient}>
       <Sheet>
-        <div className="flex bg-background container shadow">
+        <div className="flex bg-background container shadow mx-auto">
           <Sidebar />
 
           <main className="grow">

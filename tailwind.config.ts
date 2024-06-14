@@ -5,6 +5,9 @@ const config = {
   darkMode: ['class'],
   content: ['./components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}'],
   theme: {
+    fontFamily: {
+      sans: 'var(--font-sans)',
+    },
     colors: {
       border: 'hsl(var(--border))',
       input: 'hsl(var(--input))',
