@@ -1,6 +1,7 @@
 'use client';
 
-import { Menu } from 'lucide-react';
+import { Menu, MoonStar } from 'lucide-react';
+import { ThemeToggle } from '~/components/common/ThemeToggle';
 import { Button } from '~/components/ui/button';
 import { SheetTrigger } from '~/components/ui/sheet';
 
@@ -14,6 +15,10 @@ export const Header = () => (
       </SheetTrigger>
     </div>
 
-    <h1>Akun</h1>
+    <div className="flex gap-2 items-center">
+      <ThemeToggle />
+
+      <h1>Akun</h1>
+    </div>
   </header>
 );
