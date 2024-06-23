@@ -5,7 +5,7 @@ import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react';
 import { AttributeIcon } from '~/constant/attribute-icon';
 import { cn } from '~/utils/css';
 import { ScrollArea } from '~/components/ui/scroll-area';
-import { buttonVariants } from '../ui/button';
+import { buttonVariants } from '~/components/ui/button';
 
 interface Props extends ComponentPropsWithoutRef<typeof Root> {
   label: string;
