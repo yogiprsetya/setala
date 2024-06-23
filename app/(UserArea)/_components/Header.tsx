@@ -1,7 +1,7 @@
 'use client';
 
 import { Menu } from 'lucide-react';
-import { ThemeToggle } from '~/components/common/ThemeToggle';
+import { ThemeToggle } from '~/components/pattern/ThemeToggle';
 import { Button } from '~/components/ui/button';
 import { SheetTrigger } from '~/components/ui/sheet';
 import { ProfileMenu } from './ProfileMenu';

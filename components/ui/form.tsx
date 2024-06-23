@@ -1,3 +1,5 @@
+'use client';
+
 /* eslint-disable no-use-before-define */
 /* eslint-disable indent */
 import * as React from 'react';
