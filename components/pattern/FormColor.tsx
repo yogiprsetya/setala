@@ -16,7 +16,7 @@ export const FormColor = forwardRef<ElementRef<typeof Root>, Props>(({ label, ..
     <FormLabel>{label}</FormLabel>
 
     <FormControl>
-      <ScrollArea className="h-40 w-full rounded-md border pb-2">
+      <ScrollArea className="h-28 w-full rounded-md border p-2">
         <RadioGroup {...props} className="flex flex-wrap gap-1">
           {Object.values(AttributeColor).map((value) => (
             <FormItem key={value}>
@@ -29,17 +29,18 @@ export const FormColor = forwardRef<ElementRef<typeof Root>, Props>(({ label, ..
                   'cursor-pointer',
                   buttonVariants({
                     variant: props.defaultValue === value ? 'secondary' : 'ghost',
-                    size: 'icon',
+                    size: 'sm',
                   }),
                 )}
               >
-                <div className="w-6 h-6" style={{ backgroundColor: value }} />
+                <div className="w-6 h-6 rounded-full" style={{ backgroundColor: value }} />
               </FormLabel>
             </FormItem>
           ))}
         </RadioGroup>
       </ScrollArea>
     </FormControl>
+
     <FormMessage />
   </FormItem>
 ));

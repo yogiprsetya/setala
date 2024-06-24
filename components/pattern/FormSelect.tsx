@@ -20,9 +20,9 @@ interface Props extends SelectProps {
   option: Option[];
 }
 
-export const FormSelect = forwardRef<HTMLInputElement, Props>(
+export const FormSelect = forwardRef<HTMLDivElement, Props>(
   ({ label, onValueChange, value, placeholder, option, ...props }, ref) => (
-    <FormItem ref={ref}>
+    <FormItem ref={ref} className="w-full">
       <FormLabel>{label}</FormLabel>
 
       <FormControl>

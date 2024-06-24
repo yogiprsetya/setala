@@ -44,6 +44,7 @@ export const FormIcon = forwardRef<ElementRef<typeof Root>, Props>(({ label, ...
         </RadioGroup>
       </ScrollArea>
     </FormControl>
+
     <FormMessage />
   </FormItem>
 ));

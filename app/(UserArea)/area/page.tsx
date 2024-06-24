@@ -1,6 +1,6 @@
 import { Input } from '~/components/ui/input';
 import { TitlePage } from '../_components/TitlePage';
-import { AddNewDialog } from './_AddNewDialog';
+import { AddAreaDialog } from './_AddAreaDialog';
 
 const AreaPage = () => (
   <div>
@@ -12,7 +12,7 @@ const AreaPage = () => (
 
     <div className="flex w-full max-w-sm items-center space-x-2">
       <Input type="text" placeholder="search" />
-      <AddNewDialog />
+      <AddAreaDialog />
     </div>
   </div>
 );
