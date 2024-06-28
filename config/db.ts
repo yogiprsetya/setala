@@ -1,5 +1,4 @@
 import '~/config/env';
-import { sql } from '@vercel/postgres';
 import { drizzle } from 'drizzle-orm/vercel-postgres';
 import { areaType } from '~/schema/area-type';
 import { area } from '~/schema/area';
@@ -8,7 +7,12 @@ import { project } from '~/schema/project';
 import { resource } from '~/schema/resource';
 import { task } from '~/schema/task';
 import { topic } from '~/schema/topic';
+import { createClient } from '@vercel/postgres';
 
-export const db = drizzle(sql, {
+const pool = createClient({
+  connectionString: process.env.DATABASE_URL,
+});
+
+export const db = drizzle(pool, {
   schema: { areaType, area, contentType, project, resource, task, topic },
 });

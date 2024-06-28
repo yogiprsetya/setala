@@ -47,7 +47,7 @@ export const LoginForm = () => {
 
           setIsLoading(false);
           setCookie(null, 'setala-token', token);
-          router.push('/transaction');
+          router.push('/dashboard');
         }
       })
       .catch((error) => {
