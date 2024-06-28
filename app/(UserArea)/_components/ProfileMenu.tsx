@@ -7,27 +7,46 @@ import {
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
+import { destroyCookie } from 'nookies';
+import { useRouter } from 'next/navigation';
+import { auth } from '~/config/firebase';
 
-export const ProfileMenu = () => (
-  <DropdownMenu>
-    <DropdownMenuTrigger>
-      <Avatar className="w-8 h-8">
-        <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback>CN</AvatarFallback>
-      </Avatar>
-    </DropdownMenuTrigger>
+export const ProfileMenu = () => {
+  const router = useRouter();
 
-    <DropdownMenuContent>
-      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+  const endSession = () => {
+    auth.signOut();
+    destroyCookie(null, 'setala-token');
+    router.push('/signin');
+  };
 
-      <DropdownMenuSeparator />
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <Avatar className="w-8 h-8">
+          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+      </DropdownMenuTrigger>
 
-      <DropdownMenuItem>Profile</DropdownMenuItem>
-      <DropdownMenuItem>Subscription</DropdownMenuItem>
+      <DropdownMenuContent>
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
 
-      <DropdownMenuSeparator />
+        <DropdownMenuSeparator />
 
-      <DropdownMenuItem className="text-destructive">Logout</DropdownMenuItem>
-    </DropdownMenuContent>
-  </DropdownMenu>
-);
+        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem>Subscription</DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem
+          className="text-destructive cursor-pointer"
+          role="button"
+          onClick={endSession}
+        >
+          Logout
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};

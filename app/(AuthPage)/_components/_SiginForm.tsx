@@ -15,12 +15,16 @@ import {
 } from '~/components/ui/card';
 import { useToast } from '~/components/ui/use-toast';
 import { auth } from '~/config/firebase';
+import { useBoundStore } from '~/app/stores';
+import { setCookie } from 'nookies';
 
 const provider = new GoogleAuthProvider();
 provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
 export const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const { setSession } = useBoundStore((state) => state);
 
   const router = useRouter();
   const { toast } = useToast();
@@ -32,21 +36,18 @@ export const LoginForm = () => {
       .then(async (result) => {
         const { user } = result;
         const token = await user.getIdToken();
-        console.log(token);
 
         if (user) {
-          // dispatch(
-          //   setActiveUser({
-          //     userId: user.uid,
-          //     avatar: user.photoURL ?? '',
-          //     name: user.displayName ?? '',
-          //     email: user.email,
-          //     userToken: token,
-          //   }),
-          // );
+          setSession({
+            userId: user.uid,
+            avatar: user.photoURL ?? '',
+            name: user.displayName ?? '',
+            email: user.email ?? '',
+          });
 
           setIsLoading(false);
-          // router.push('/transaction');
+          setCookie(null, 'setala-token', token);
+          router.push('/transaction');
         }
       })
       .catch((error) => {
