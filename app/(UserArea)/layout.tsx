@@ -2,8 +2,8 @@
 
 import { Sheet } from '~/components/ui/sheet';
 import { useState } from 'react';
-import { If } from '~/components/ui/if';
 import { useIsomorphicLayoutEffect } from '~/hooks/useIsomorphicLayoutEffect';
+import { Protected } from '~/components/layout/ProtectRoute';
 import { Header } from './_components/Header';
 import Sidebar from './_components/Sidebar';
 
@@ -18,8 +18,12 @@ export default function RootLayout({
     setIsClient(true);
   }, []);
 
+  if (!isClient) {
+    return null;
+  }
+
   return (
-    <If condition={isClient}>
+    <Protected>
       <Sheet>
         <div className="flex bg-background container shadow mx-auto">
           <Sidebar />
@@ -30,6 +34,6 @@ export default function RootLayout({
           </main>
         </div>
       </Sheet>
-    </If>
+    </Protected>
   );
 }

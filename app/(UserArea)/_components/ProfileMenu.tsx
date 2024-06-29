@@ -7,46 +7,34 @@ import {
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
-import { destroyCookie } from 'nookies';
-import { useRouter } from 'next/navigation';
-import { auth } from '~/config/firebase';
+import { signOut } from 'next-auth/react';
 
-export const ProfileMenu = () => {
-  const router = useRouter();
+export const ProfileMenu = () => (
+  <DropdownMenu>
+    <DropdownMenuTrigger>
+      <Avatar className="w-8 h-8">
+        <AvatarImage src="https://github.com/shadcn.png" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+    </DropdownMenuTrigger>
 
-  const endSession = () => {
-    auth.signOut();
-    destroyCookie(null, 'setala-token');
-    router.push('/signin');
-  };
+    <DropdownMenuContent>
+      <DropdownMenuLabel>My Account</DropdownMenuLabel>
 
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Avatar className="w-8 h-8">
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-      </DropdownMenuTrigger>
+      <DropdownMenuSeparator />
 
-      <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+      <DropdownMenuItem>Profile</DropdownMenuItem>
+      <DropdownMenuItem>Subscription</DropdownMenuItem>
 
-        <DropdownMenuSeparator />
+      <DropdownMenuSeparator />
 
-        <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Subscription</DropdownMenuItem>
-
-        <DropdownMenuSeparator />
-
-        <DropdownMenuItem
-          className="text-destructive cursor-pointer"
-          role="button"
-          onClick={endSession}
-        >
-          Logout
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-};
+      <DropdownMenuItem
+        className="text-destructive cursor-pointer"
+        role="button"
+        onClick={() => signOut()}
+      >
+        Logout
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+);

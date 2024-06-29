@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { cn } from '~/utils/css';
 import { ThemeProvider } from 'next-themes';
-import { Sheet } from '~/components/ui/sheet';
+import { NextAuthProvider } from '~/components/layout/NextAuthProvider';
 
 const fontSans = Inter({
   subsets: ['latin'],
@@ -25,9 +25,11 @@ export default function RootLayout({
       <body
         className={cn('min-h-screen font-sans antialiased bg-background/50', fontSans.variable)}
       >
-        <ThemeProvider attribute="class" defaultTheme="light">
-          {children}
-        </ThemeProvider>
+        <NextAuthProvider>
+          <ThemeProvider attribute="class" defaultTheme="light">
+            {children}
+          </ThemeProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );
