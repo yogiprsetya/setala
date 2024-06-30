@@ -30,6 +30,7 @@
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": "error",
     "no-unused-vars": "off",
+    "arrow-body-style": ["off", "as-needed"],
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
