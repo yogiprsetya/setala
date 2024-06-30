@@ -19,7 +19,6 @@ export const Protected = (props: Props) => {
 
   const unAuthorized = status === 'unauthenticated';
   const loading = status === 'loading';
-  console.log(status);
 
   useEffect(() => {
     if (loading) return;
