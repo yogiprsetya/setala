@@ -11,14 +11,22 @@ export const nextAuthConfig: NextAuthOptions = {
     strategy: 'jwt',
   },
   callbacks: {
-    async jwt({ token }) {
+    async jwt({ token, user }) {
+      if (user) {
+        return { ...token, ...user };
+      }
+
       return token;
     },
     async session({ session, token }) {
-      return {
-        ...session,
-        accessToken: token.accessToken,
-      };
+      const data = { ...session.user } as any;
+
+      if (session.user) {
+        // eslint-disable-next-line no-param-reassign
+        data.id = token.id ?? '';
+      }
+
+      return { ...session, user: data };
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
