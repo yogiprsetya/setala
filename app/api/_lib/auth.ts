@@ -1,14 +1,15 @@
-import { Session, getServerSession } from 'next-auth';
+import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import { nextAuthConfig } from '~/app/api/auth/[...nextauth]/route';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { UserSession } from '~/@types/auth';
 
 export const requireAuth = async (
   req: NextApiRequest,
   res: NextApiResponse,
-  controller: (s: Session | null) => NextResponse,
+  controller: (s: UserSession | null) => NextResponse,
 ) => {
-  const session = await getServerSession(nextAuthConfig);
+  const session = (await getServerSession(nextAuthConfig)) as UserSession;
 
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' });
