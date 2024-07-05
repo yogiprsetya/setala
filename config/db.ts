@@ -7,12 +7,21 @@ import { project } from '~/schema/project';
 import { resource } from '~/schema/resource';
 import { task } from '~/schema/task';
 import { topic } from '~/schema/topic';
-import { createClient } from '@vercel/postgres';
+import { sql } from '@vercel/postgres';
+import { users, accounts, sessions, verificationTokens } from '~/schema/users';
 
-const pool = createClient({
-  connectionString: process.env.DATABASE_URL,
-});
-
-export const db = drizzle(pool, {
-  schema: { areaType, area, contentType, project, resource, task, topic },
+export const db = drizzle(sql, {
+  schema: {
+    areaType,
+    area,
+    contentType,
+    project,
+    resource,
+    task,
+    topic,
+    users,
+    accounts,
+    sessions,
+    verificationTokens,
+  },
 });

@@ -8,6 +8,20 @@
       "when": 1718250275596,
       "tag": "0000_equal_forge",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1720140563108,
+      "tag": "0001_lyrical_forgotten_one",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1720148479603,
+      "tag": "0002_smart_prodigy",
+      "breakpoints": true
     }
   ]
 }
