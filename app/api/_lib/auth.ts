@@ -7,7 +7,7 @@ import { UserSession } from '~/@types/auth';
 export const requireAuth = async (
   req: NextApiRequest,
   res: NextApiResponse,
-  controller: (s: UserSession | null) => NextResponse,
+  controller: (s: UserSession | null) => Promise<NextResponse>,
 ) => {
   const session = (await getServerSession(nextAuthConfig)) as UserSession;
 
