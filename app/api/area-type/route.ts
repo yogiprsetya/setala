@@ -5,8 +5,8 @@ import { eq } from 'drizzle-orm';
 import { handleExpiredSession } from '~/app/api/_lib/handle-expired-session';
 import { bodyParse } from '~/app/api/_lib/body-parse';
 import { requireAuth } from '~/app/api/_lib/auth';
-import { handleInvalidRequest } from '../_lib/handle-invalid-request';
-import { handleSuccessResponse } from '../_lib/handle-success-response';
+import { handleInvalidRequest } from '~/app/api/_lib/handle-invalid-request';
+import { handleSuccessResponse } from '~/app/api/_lib/handle-success-response';
 
 const schemaSelect = {
   id: areaType.id,
