@@ -13,3 +13,11 @@ export const areaType = pgTable('area_type', {
 });
 
 export const areaTypeReqSchema = createInsertSchema(areaType).pick({ name: true, color: true });
+
+export const areaTypeSelectSchema = {
+  id: areaType.id,
+  name: areaType.name,
+  color: areaType.color,
+  createdAt: areaType.createdAt,
+  updatedAt: areaType.updatedAt,
+};
