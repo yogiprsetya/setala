@@ -13,9 +13,9 @@ import { usePathname } from 'next/navigation';
 import React, { Fragment } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { Button } from '~/components/ui/button';
-import { Drawer, DrawerContent, DrawerTrigger } from '~/components/ui/drawer';
+import { Drawer, DrawerTrigger } from '~/components/ui/drawer';
 import { Separator } from '~/components/ui/separator';
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTrigger } from '~/components/ui/sheet';
+import { SheetContent, SheetHeader } from '~/components/ui/sheet';
 import { Text } from '~/components/ui/text';
 import { MOBILE_MEDIA_QUERY } from '~/config/ui';
 import { useMediaQuery } from '~/hooks/useMediaQuery';
@@ -28,11 +28,6 @@ const sidebarItems = [
     separator: true,
   },
   {
-    icon: LandPlot,
-    label: 'Area',
-    href: '/area',
-  },
-  {
     icon: FolderKanban,
     label: 'Project',
     href: '/project',
@@ -42,6 +37,11 @@ const sidebarItems = [
     label: 'Task',
     href: '/task',
     separator: true,
+  },
+  {
+    icon: LandPlot,
+    label: 'Area',
+    href: '/area',
   },
   {
     icon: BookMarked,

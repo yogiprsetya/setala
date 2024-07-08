@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { cn } from '~/utils/css';
 import { ThemeProvider } from 'next-themes';
-import { Sheet } from '~/components/ui/sheet';
+import { NextAuthProvider } from '~/components/layout/NextAuthProvider';
+import { SWRProvider } from '~/components/layout/SWRProvider';
 
 const fontSans = Inter({
   subsets: ['latin'],
@@ -21,13 +21,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html suppressHydrationWarning lang="en">
-      <body
-        className={cn('min-h-screen font-sans antialiased bg-background/50', fontSans.variable)}
-      >
-        <ThemeProvider attribute="class" defaultTheme="dark">
-          {children}
-        </ThemeProvider>
+    <html suppressHydrationWarning lang="en" className={fontSans.variable}>
+      <body className="min-h-screen font-sans antialiased bg-background/50">
+        <SWRProvider>
+          <NextAuthProvider>
+            <ThemeProvider attribute="class" defaultTheme="light">
+              {children}
+            </ThemeProvider>
+          </NextAuthProvider>
+        </SWRProvider>
       </body>
     </html>
   );
