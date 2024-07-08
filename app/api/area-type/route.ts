@@ -42,7 +42,7 @@ const POST = async (req: NextApiRequest) => {
         })
         .returning(areaTypeSelectSchema);
 
-      return handleSuccessResponse(result);
+      return handleSuccessResponse(result[0]);
     }
 
     return handleExpiredSession();

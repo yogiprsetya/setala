@@ -14,6 +14,10 @@ import { useForm } from 'react-hook-form';
 import { Form, FormField } from '~/components/ui/form';
 import { FormInput } from '~/components/pattern/FormInput';
 import { FormColor } from '~/components/pattern/FormColor';
+import { useAreaType } from '~/services/useAreaType';
+import { useState } from 'react';
+import { LoadingState } from '~/components/ui/loading-state';
+import { If } from '~/components/ui/if';
 
 const formSchema = z.object({
   name: z.string().min(3).max(50),
@@ -21,6 +25,11 @@ const formSchema = z.object({
 });
 
 export const AddAreaTypeDialog = () => {
+  const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { createAreaType } = useAreaType();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -28,30 +37,31 @@ export const AddAreaTypeDialog = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
+
+    const success = await createAreaType(values);
+
+    if (success) {
+      setOpen(false);
+      form.reset();
+      setIsLoading(false);
+    }
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="secondary">Add Type</Button>
+        <Button variant="secondary" type="button">
+          Add Type
+        </Button>
       </DialogTrigger>
 
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add new type of area</DialogTitle>
-          <DialogClose />
-        </DialogHeader>
+        <DialogHeader>Add new type of area</DialogHeader>
 
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            id="add-type_area-form"
-            className="space-y-4"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="name"
@@ -76,7 +86,12 @@ export const AddAreaTypeDialog = () => {
         </Form>
 
         <DialogFooter>
-          <Button form="add-type_area-form">Save</Button>
+          <Button disabled={isLoading} type="button" onClick={() => form.handleSubmit(onSubmit)()}>
+            <If condition={isLoading}>
+              <LoadingState className="mr-2 h-4 w-4" />
+            </If>
+            Save
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

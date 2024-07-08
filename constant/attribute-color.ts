@@ -10,4 +10,6 @@ export const AttributeColor = [
   '#A30000',
   '#D2D2D2',
   '#8A8D90',
+  '#f183c7',
+  '#c8388b',
 ];

@@ -28,8 +28,8 @@ export const FormColor = forwardRef<ElementRef<typeof Root>, Props>(({ label, ..
                 className={cn(
                   'cursor-pointer',
                   buttonVariants({
-                    variant: props.defaultValue === value ? 'secondary' : 'ghost',
-                    size: 'sm',
+                    variant: props.defaultValue === value ? 'default' : 'ghost',
+                    size: 'icon',
                   }),
                 )}
               >

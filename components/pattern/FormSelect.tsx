@@ -1,5 +1,5 @@
 import { SelectProps } from '@radix-ui/react-select';
-import { forwardRef } from 'react';
+import { cloneElement, createElement, forwardRef, ReactElement } from 'react';
 import { FormControl, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
 import {
   Select,
@@ -8,17 +8,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from '~/components/ui/select';
+import { If } from '../ui/if';
 
 type Option = {
-  value: string;
+  value: string | number;
   label: string;
 };
 
 interface Props extends SelectProps {
   label: string;
   placeholder?: string;
-  option: Option[];
+  option: Option[] | JSX.Element[];
 }
+
+const typeofOption = (object: any): object is Option => {
+  return 'value' in object[0];
+};
 
 export const FormSelect = forwardRef<HTMLDivElement, Props>(
   ({ label, onValueChange, value, placeholder, option, ...props }, ref) => (
@@ -34,11 +39,19 @@ export const FormSelect = forwardRef<HTMLDivElement, Props>(
           </FormControl>
 
           <SelectContent>
-            {option.map((item) => (
-              <SelectItem key={item.value} value={item.value}>
-                {item.label}
-              </SelectItem>
-            ))}
+            <If condition={option}>
+              {(selects) => {
+                if (typeofOption(selects)) {
+                  return (selects as Option[]).map((item) => (
+                    <SelectItem key={item.value} value={item.value.toString()}>
+                      {item.label}
+                    </SelectItem>
+                  ));
+                }
+
+                return selects.map((v) => cloneElement(v as ReactElement, {}));
+              }}
+            </If>
           </SelectContent>
         </Select>
       </FormControl>
