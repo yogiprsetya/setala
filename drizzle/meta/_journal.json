@@ -43,6 +43,13 @@
       "when": 1720195208292,
       "tag": "0005_cheerful_iron_lad",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1720434866328,
+      "tag": "0006_smart_human_robot",
+      "breakpoints": true
     }
   ]
 }
