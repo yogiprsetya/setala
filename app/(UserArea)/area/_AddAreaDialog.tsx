@@ -3,11 +3,9 @@
 import { Button } from '~/components/ui/button';
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from '~/components/ui/dialog';
 import { z } from 'zod';
@@ -22,6 +20,7 @@ import { SelectItem } from '~/components/ui/select';
 import { Badge } from '~/components/ui/badge';
 import { useState } from 'react';
 import { If } from '~/components/ui/if';
+import { FormSkeleton } from '~/components/pattern/FormSkeleton';
 import { AddAreaTypeDialog } from './_AddAreaTypeDialog';
 
 const formSchema = z.object({
@@ -57,18 +56,18 @@ export const AddAreaDialog = () => {
       <DialogContent>
         <DialogHeader>Add new area</DialogHeader>
 
-        <If condition={dataAreaTypes.length}>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} id="add-area-form" className="space-y-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormInput label="Name" placeholder="Your area name" {...field} />
-                )}
-              />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} id="add-area-form" className="space-y-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormInput label="Name" placeholder="Your area name" {...field} />
+              )}
+            />
 
-              <div className="flex gap-2 items-end">
+            <div className="flex gap-2 items-end">
+              <If condition={dataAreaTypes.length} fallback={<FormSkeleton />}>
                 <FormField
                   control={form.control}
                   name="type_id"
@@ -88,24 +87,20 @@ export const AddAreaDialog = () => {
                     />
                   )}
                 />
+              </If>
 
-                <AddAreaTypeDialog />
-              </div>
+              <AddAreaTypeDialog />
+            </div>
 
-              <FormField
-                control={form.control}
-                name="icon"
-                render={({ field }) => (
-                  <FormIcon
-                    label="Icon"
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  />
-                )}
-              />
-            </form>
-          </Form>
-        </If>
+            <FormField
+              control={form.control}
+              name="icon"
+              render={({ field }) => (
+                <FormIcon label="Icon" onValueChange={field.onChange} defaultValue={field.value} />
+              )}
+            />
+          </form>
+        </Form>
 
         <DialogFooter>
           <Button form="add-area-form">Save</Button>
