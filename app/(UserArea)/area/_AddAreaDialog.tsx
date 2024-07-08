@@ -41,11 +41,11 @@ export const AddAreaDialog = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
-  }
+    console.log({ ...values, type_id: Number(values.type_id) });
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -73,6 +73,8 @@ export const AddAreaDialog = () => {
                   name="type_id"
                   render={({ field }) => (
                     <FormSelect
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
                       option={dataAreaTypes.map((t) => (
                         <SelectItem key={t.id} value={t.id.toString()}>
                           <Badge style={{ background: t.color }}>{t.name}</Badge>
