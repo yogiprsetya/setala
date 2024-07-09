@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "pre-commit": "lint-staged",
-    "migrate": "npx drizzle-kit generate && tsx config/migrate.ts"
+    "migrate": "drizzle-kit generate && drizzle-kit migrate"
   },
   "dependencies": {
     "@auth/core": "^0.34.1",

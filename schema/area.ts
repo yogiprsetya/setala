@@ -7,12 +7,14 @@ export const area = pgTable('area', {
   userId: text('user_id').notNull(),
 
   name: text('name').notNull(),
-  typeId: integer('type_id').references(() => areaType.id),
+  typeId: integer('type_id')
+    .notNull()
+    .references(() => areaType.id),
   isArchive: boolean('is_archive'),
   icon: text('icon').notNull(),
 
-  createdAt: timestamp('created_at'),
-  updatedAt: timestamp('updated_at'),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });
 
 export const areaReqSchema = createInsertSchema(area).pick({
