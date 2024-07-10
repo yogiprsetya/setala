@@ -17,14 +17,14 @@ import { Form, FormField } from '~/components/ui/form';
 import { FormInput } from '~/components/pattern/FormInput';
 import { FormSelect } from '~/components/pattern/FormSelect';
 import { FormIcon } from '~/components/pattern/FormIcon';
-import { useAreaType } from '~/services/useAreaType';
+import { useAreaTypeService } from '~/services/use-area-type';
 import { SelectItem } from '~/components/ui/select';
 import { Badge } from '~/components/ui/badge';
 import { useState } from 'react';
 import { If } from '~/components/ui/if';
 import { FormSkeleton } from '~/components/pattern/FormSkeleton';
-import { useArea } from '~/services/useArea';
-import { AddAreaTypeDialog } from './_AddAreaTypeDialog';
+import { useAreaService } from '~/services/use-area';
+import { AddAreaTypeDialog } from './_add-area-type-dialog';
 
 const formSchema = z.object({
   name: z.string().min(3).max(50),
@@ -35,8 +35,8 @@ const formSchema = z.object({
 export const AddAreaDialog = () => {
   const [open, setOpen] = useState(false);
 
-  const { dataAreaTypes, loadingAreaTypes } = useAreaType({ disabled: !open });
-  const { createArea } = useArea();
+  const { dataAreaTypes, loadingAreaTypes } = useAreaTypeService({ disabled: !open });
+  const { createArea } = useAreaService();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

@@ -8,7 +8,7 @@ import {
   handleExpiredSession,
   handleInvalidRequest,
 } from 'api-lib/handle-error-response';
-import { area, areaSelectSchema } from '~/schema/area';
+import { area } from '~/schema/area';
 import { NextRequest } from 'next/server';
 
 type Params = {
@@ -27,7 +27,7 @@ const DELETE = async (req: NextRequest, { params }: Params) => {
       const result = await db
         .delete(area)
         .where(and(eq(area.userId, session.user.id), eq(area.id, Number(id))))
-        .returning(areaSelectSchema);
+        .returning({ id: area.id });
 
       if (!result.length) {
         return handleDataNotFound();

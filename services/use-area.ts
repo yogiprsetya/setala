@@ -1,19 +1,18 @@
 import useSWR from 'swr';
 import Error from 'next/error';
 import { useCallback } from 'react';
-import { area } from '~/schema/area';
-import { fetchClient } from '~/services/fetchClient';
+import { Area, IAreaData } from '~/schema/area';
+import { fetchClient } from '~/services/fetch-client';
 import { HttpRequest } from '~/@types/HttpRequest';
 
-type Area = typeof area.$inferSelect;
 type CreateParams = Pick<Area, 'name' | 'icon' | 'typeId'>;
 
 type Options = {
   disabled?: boolean;
 };
 
-export const useArea = (opt?: Options) => {
-  const { data, isLoading, mutate } = useSWR<HttpRequest<Area[]>, Error>(
+export const useAreaService = (opt?: Options) => {
+  const { data, isLoading, mutate } = useSWR<HttpRequest<IAreaData[]>, Error>(
     opt?.disabled ? null : 'area',
   );
 
@@ -21,7 +20,7 @@ export const useArea = (opt?: Options) => {
     async (form: CreateParams) => {
       if (!data?.data) return false;
 
-      const result = await fetchClient<HttpRequest<Area>>('area', {
+      const result = await fetchClient<HttpRequest<IAreaData>>('area', {
         method: 'POST',
         body: JSON.stringify(form),
       });

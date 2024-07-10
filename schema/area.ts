@@ -1,5 +1,7 @@
 import { serial, text, timestamp, pgTable, integer, boolean } from 'drizzle-orm/pg-core';
 import { createInsertSchema } from 'drizzle-zod';
+import { AttributeColor } from '~/constant/attribute-color';
+import { AttributeIcon } from '~/constant/attribute-icon';
 import { areaType } from './area-type';
 
 export const area = pgTable('area', {
@@ -27,7 +29,22 @@ export const areaSelectSchema = {
   id: area.id,
   name: area.name,
   icon: area.icon,
-  typeId: area.typeId,
   createdAt: area.createdAt,
   updatedAt: area.updatedAt,
+  type: {
+    id: area.typeId,
+    name: areaType.name,
+    color: areaType.color,
+  },
 };
+
+export type Area = typeof area.$inferSelect;
+
+export interface IAreaData extends Omit<Area, 'typeId'> {
+  type: {
+    id: number;
+    name: string;
+    color: (typeof AttributeColor)[number];
+  };
+  icon: keyof typeof AttributeIcon;
+}

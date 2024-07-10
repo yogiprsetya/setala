@@ -6,6 +6,7 @@ import { handleExpiredSession, handleInvalidRequest } from 'api-lib/handle-error
 import { and, eq } from 'drizzle-orm';
 import { bodyParse } from 'api-lib/body-parse';
 import { NextRequest } from 'next/server';
+import { areaType } from '~/schema/area-type';
 
 const GET = async () => {
   return requireAuth(async (session) => {
@@ -13,6 +14,7 @@ const GET = async () => {
       const result = await db
         .select(areaSelectSchema)
         .from(area)
+        .innerJoin(areaType, eq(area.typeId, areaType.id))
         .where(and(eq(area.userId, session.user.id), eq(area.isArchive, false)))
         .then((data) => data);
 
@@ -42,9 +44,16 @@ const POST = async (req: NextRequest) => {
           isArchive: false,
           userId: session.user.id,
         })
-        .returning(areaSelectSchema);
+        .returning({ id: area.id });
 
-      return handleSuccessResponse(result[0]);
+      const returning = await db
+        .select(areaSelectSchema)
+        .from(area)
+        .innerJoin(areaType, eq(area.typeId, areaType.id))
+        .where(eq(area.id, result[0].id))
+        .then((data) => data);
+
+      return handleSuccessResponse(returning[0]);
     }
 
     return handleExpiredSession();

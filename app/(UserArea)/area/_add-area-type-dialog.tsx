@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form';
 import { Form, FormField } from '~/components/ui/form';
 import { FormInput } from '~/components/pattern/FormInput';
 import { FormColor } from '~/components/pattern/FormColor';
-import { useAreaType } from '~/services/useAreaType';
+import { useAreaTypeService } from '~/services/use-area-type';
 import { useState } from 'react';
 import { LoadingState } from '~/components/ui/loading-state';
 import { If } from '~/components/ui/if';
@@ -26,7 +26,7 @@ export const AddAreaTypeDialog = () => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { createAreaType } = useAreaType();
+  const { createAreaType } = useAreaTypeService();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
