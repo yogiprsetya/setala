@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+
 'use client';
 
 import { Button } from '~/components/ui/button';
@@ -21,6 +23,7 @@ import { Badge } from '~/components/ui/badge';
 import { useState } from 'react';
 import { If } from '~/components/ui/if';
 import { FormSkeleton } from '~/components/pattern/FormSkeleton';
+import { useArea } from '~/services/useArea';
 import { AddAreaTypeDialog } from './_AddAreaTypeDialog';
 
 const formSchema = z.object({
@@ -33,6 +36,7 @@ export const AddAreaDialog = () => {
   const [open, setOpen] = useState(false);
 
   const { dataAreaTypes, loadingAreaTypes } = useAreaType({ disabled: !open });
+  const { createArea } = useArea();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,7 +48,7 @@ export const AddAreaDialog = () => {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log({ ...values, type_id: Number(values.type_id) });
+    createArea({ ...values, typeId: Number(values.type_id) });
   };
 
   return (
@@ -67,7 +71,7 @@ export const AddAreaDialog = () => {
             />
 
             <div className="flex gap-2 items-end">
-              <If condition={dataAreaTypes.length} fallback={<FormSkeleton />}>
+              <If condition={!loadingAreaTypes} fallback={<FormSkeleton />}>
                 <FormField
                   control={form.control}
                   name="type_id"
@@ -75,12 +79,16 @@ export const AddAreaDialog = () => {
                     <FormSelect
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      option={dataAreaTypes.map((t) => (
-                        <SelectItem key={t.id} value={t.id.toString()}>
-                          <Badge style={{ background: t.color }}>{t.name}</Badge>
-                        </SelectItem>
-                      ))}
-                      disabled={loadingAreaTypes || !dataAreaTypes.length}
+                      option={
+                        dataAreaTypes.length
+                          ? dataAreaTypes.map((t) => (
+                              <SelectItem key={t.id} value={t.id.toString()}>
+                                <Badge style={{ background: t.color }}>{t.name}</Badge>
+                              </SelectItem>
+                            ))
+                          : []
+                      }
+                      disabled={!dataAreaTypes.length}
                       label="Type"
                       placeholder={
                         dataAreaTypes.length ? 'Select section area' : 'Please add area type first'

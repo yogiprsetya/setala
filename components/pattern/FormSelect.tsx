@@ -1,5 +1,5 @@
 import { SelectProps } from '@radix-ui/react-select';
-import { cloneElement, createElement, forwardRef, ReactElement } from 'react';
+import { cloneElement, forwardRef, ReactElement } from 'react';
 import { FormControl, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
 import {
   Select,
@@ -22,6 +22,7 @@ interface Props extends SelectProps {
 }
 
 const typeofOption = (object: any): object is Option => {
+  if (!object || !object.length) return false;
   return 'value' in object[0];
 };
 
