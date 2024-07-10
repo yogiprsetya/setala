@@ -12,7 +12,7 @@ export const fetchClient = async <R>(url: string, options: RequestInit = {}): Pr
   });
 
   if (!response.ok) {
-    return response;
+    return response.json();
   }
 
   return response.json();

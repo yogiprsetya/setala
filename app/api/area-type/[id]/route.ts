@@ -1,21 +1,21 @@
-import type { NextApiRequest } from 'next';
 import { db } from '~/config/db';
 import { areaType, areaTypeSelectSchema } from '~/schema/area-type';
 import { and, eq } from 'drizzle-orm';
-import { requireAuth } from '~/app/api/_lib/auth';
-import { handleSuccessResponse } from '~/app/api/_lib/handle-success-response';
+import { requireAuth } from 'api-lib/auth';
+import { handleSuccessResponse } from 'api-lib/handle-success-response';
 import { isNumeric } from '~/utils/is-numeric';
 import {
   handleDataNotFound,
   handleExpiredSession,
   handleInvalidRequest,
-} from '~/app/api/_lib/handle-error-response';
+} from 'api-lib/handle-error-response';
+import { NextRequest } from 'next/server';
 
 type Params = {
   params: { id: string };
 };
 
-const DELETE = async (req: NextApiRequest, { params }: Params) => {
+const DELETE = async (req: NextRequest, { params }: Params) => {
   const { id } = params;
 
   if (!isNumeric(id)) {

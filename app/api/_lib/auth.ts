@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
-import { nextAuthConfig } from '~/app/api/auth/[...nextauth]/route';
 import { UserSession } from '~/@types/Auth';
+import { nextAuthConfig } from '~/config/next-auth';
 
 type AuthController = (s: UserSession | null) => Promise<NextResponse>;
 

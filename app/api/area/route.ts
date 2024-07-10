@@ -1,11 +1,11 @@
 import { requireAuth } from 'api-lib/auth';
-import type { NextApiRequest } from 'next';
 import { db } from '~/config/db';
 import { area, areaReqSchema, areaSelectSchema } from '~/schema/area';
-import { handleSuccessResponse } from '~/app/api/_lib/handle-success-response';
-import { handleExpiredSession, handleInvalidRequest } from '~/app/api/_lib/handle-error-response';
+import { handleSuccessResponse } from 'api-lib/handle-success-response';
+import { handleExpiredSession, handleInvalidRequest } from 'api-lib/handle-error-response';
 import { and, eq } from 'drizzle-orm';
-import { bodyParse } from '~/app/api/_lib/body-parse';
+import { bodyParse } from 'api-lib/body-parse';
+import { NextRequest } from 'next/server';
 
 const GET = async () => {
   return requireAuth(async (session) => {
@@ -23,7 +23,7 @@ const GET = async () => {
   });
 };
 
-const POST = async (req: NextApiRequest) => {
+const POST = async (req: NextRequest) => {
   const body = await bodyParse(req);
   const schema = areaReqSchema.safeParse(body);
 
