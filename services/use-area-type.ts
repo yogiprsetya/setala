@@ -19,19 +19,17 @@ export const useAreaTypeService = (opt?: Options) => {
 
   const createAreaType = useCallback(
     async (form: CreateParams) => {
-      if (!data?.data) return false;
-
       const result = await fetchClient<HttpRequest<AreaType>>('area-type', {
         method: 'POST',
         body: JSON.stringify(form),
       });
 
-      if (result.success) {
+      if (result.success && data?.data) {
         mutate({ ...data, data: [...data.data, result.data] });
-        return !!result.data;
+        return result;
       }
 
-      return result.success;
+      return result;
     },
     [data, mutate],
   );

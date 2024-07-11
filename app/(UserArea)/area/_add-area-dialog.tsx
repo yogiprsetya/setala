@@ -24,6 +24,7 @@ import { useState } from 'react';
 import { If } from '~/components/ui/if';
 import { FormSkeleton } from '~/components/pattern/FormSkeleton';
 import { useAreaService } from '~/services/use-area';
+import { LoadingState } from '~/components/ui/loading-state';
 import { AddAreaTypeDialog } from './_add-area-type-dialog';
 
 const formSchema = z.object({
@@ -33,6 +34,7 @@ const formSchema = z.object({
 });
 
 export const AddAreaDialog = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [open, setOpen] = useState(false);
 
   const { dataAreaTypes, loadingAreaTypes } = useAreaTypeService({ disabled: !open });
@@ -45,10 +47,15 @@ export const AddAreaDialog = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    createArea({ ...values, typeId: Number(values.type_id) });
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsSubmitting(true);
+    const isSuccess = await createArea({ ...values, typeId: Number(values.type_id) });
+
+    if (isSuccess) {
+      form.reset();
+      setOpen(false);
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -99,7 +106,9 @@ export const AddAreaDialog = () => {
                 />
               </If>
 
-              <AddAreaTypeDialog />
+              <AddAreaTypeDialog
+                onSuccess={(id) => form.setValue('type_id', id, { shouldValidate: true })}
+              />
             </div>
 
             <FormField
@@ -113,7 +122,12 @@ export const AddAreaDialog = () => {
         </Form>
 
         <DialogFooter>
-          <Button form="add-area-form">Save</Button>
+          <Button form="add-area-form" disabled={isSubmitting}>
+            <If condition={isSubmitting}>
+              <LoadingState className="mr-2 h-4 w-4" />
+            </If>
+            Save
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

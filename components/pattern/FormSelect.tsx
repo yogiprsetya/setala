@@ -32,7 +32,7 @@ export const FormSelect = forwardRef<HTMLDivElement, Props>(
       <FormLabel>{label}</FormLabel>
 
       <FormControl>
-        <Select onValueChange={onValueChange} defaultValue={value} {...props}>
+        <Select {...props} onValueChange={onValueChange} defaultValue={value} value={value}>
           <FormControl>
             <SelectTrigger>
               <SelectValue placeholder={placeholder} />

@@ -22,7 +22,11 @@ const formSchema = z.object({
   color: z.string(),
 });
 
-export const AddAreaTypeDialog = () => {
+type Props = {
+  onSuccess: (id: string) => void;
+};
+
+export const AddAreaTypeDialog = (props: Props) => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -38,13 +42,15 @@ export const AddAreaTypeDialog = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
 
-    const success = await createAreaType(values);
+    const result = await createAreaType(values);
 
-    if (success) {
+    if (result.success) {
+      props.onSuccess(result.data.id.toString());
       setOpen(false);
       form.reset();
-      setIsLoading(false);
     }
+
+    setIsLoading(false);
   };
 
   return (
@@ -84,7 +90,13 @@ export const AddAreaTypeDialog = () => {
         </Form>
 
         <DialogFooter>
-          <Button disabled={isLoading} type="button" onClick={() => form.handleSubmit(onSubmit)()}>
+          <Button
+            disabled={isLoading}
+            // If we don't use form.handleSubmit, I dont know why
+            // the submit button triggered another form
+            type="button"
+            onClick={() => form.handleSubmit(onSubmit)()}
+          >
             <If condition={isLoading}>
               <LoadingState className="mr-2 h-4 w-4" />
             </If>

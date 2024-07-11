@@ -2,7 +2,6 @@
 
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { AttributeIcon } from '~/constant/attribute-icon';
-import { AttributeColor } from '~/constant/attribute-color';
 import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
 import {
@@ -15,6 +14,14 @@ import {
 } from '~/components/ui/table';
 import { useAreaService } from '~/services/use-area';
 import { IAreaData } from '~/schema/area';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from '~/components/ui/dropdown-menu';
+import { Ellipsis } from 'lucide-react';
 
 export const columns: ColumnDef<IAreaData>[] = [
   {
@@ -42,14 +49,22 @@ export const columns: ColumnDef<IAreaData>[] = [
   },
   {
     header: 'Action',
-    cell: ({ row }) => <Button>TEST</Button>,
+    cell: ({ row }) => (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="icon">
+            <Ellipsis className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent>
+          <DropdownMenuLabel>Edit</DropdownMenuLabel>
+          <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ),
   },
 ];
-
-// interface DataTableProps<TData, TValue> {
-//   columns: ColumnDef<TData, TValue>[];
-//   data: TData[];
-// }
 
 export const DataArea = () => {
   const { dataArea } = useAreaService();
