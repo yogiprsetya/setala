@@ -61,44 +61,50 @@ export const AddResourceDialog = () => {
         <Button>Add new</Button>
       </DialogTrigger>
 
-      <DialogContent>
+      <DialogContent className="lg:min-w-[768px]">
         <DialogHeader>Add new resource</DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} id="add-resource-form" className="space-y-4">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormInput label="Title" placeholder="Resource title" {...field} />
-              )}
-            />
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            id="add-resource-form"
+            className="grid grid-cols-2 gap-4"
+          >
+            <div className="space-y-4">
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormInput label="Title" placeholder="Resource title" {...field} />
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="url"
-              render={({ field }) => (
-                <FormInput
-                  label="URL"
-                  placeholder="Provide a valid URL or leave empty"
-                  {...field}
-                />
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="url"
+                render={({ field }) => (
+                  <FormInput
+                    label="Resource URL"
+                    placeholder="Provide a valid URL or leave empty"
+                    {...field}
+                  />
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="publish_date"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Publish Date</FormLabel>
+              <FormField
+                control={form.control}
+                name="publish_date"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Publish Date</FormLabel>
 
-                  <DatePicker selected={field.value} onSelect={field.onChange} />
-                </FormItem>
-              )}
-            />
+                    <DatePicker selected={field.value} onSelect={field.onChange} />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-            <div className="flex gap-2 items-end">
+            <div className="space-y-4">
               <If condition={!loadingArea} fallback={<FormSkeleton />}>
                 <FormField
                   control={form.control}

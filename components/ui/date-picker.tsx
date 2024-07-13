@@ -20,8 +20,8 @@ export const DatePicker = (props: Props) => (
     <PopoverTrigger asChild>
       <FormControl>
         <Button
-          variant={'outline'}
-          className={cn('w-[240px] justify-start text-left font-normal', {
+          variant="outline"
+          className={cn('w-full justify-start text-left font-normal', {
             'text-muted-foreground': !props.selected,
           })}
         >
@@ -31,7 +31,7 @@ export const DatePicker = (props: Props) => (
       </FormControl>
     </PopoverTrigger>
 
-    <PopoverContent className="w-auto p-0" align="start">
+    <PopoverContent className="w-auto p-0" align="center">
       <Calendar mode="single" selected={props.selected} onSelect={props.onSelect} />
     </PopoverContent>
   </Popover>
