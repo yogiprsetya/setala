@@ -5,7 +5,7 @@ import { DataArea } from './_data-area';
 
 const AreaPage = () => {
   return (
-    <div>
+    <>
       <TitlePage
         title="Area Setup"
         description="Use Areas to manage continuous aspects of your life. They represent the different hats you
@@ -18,7 +18,7 @@ const AreaPage = () => {
       </div>
 
       <DataArea />
-    </div>
+    </>
   );
 };
 

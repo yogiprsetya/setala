@@ -15,10 +15,12 @@ type Option = {
   label: string;
 };
 
-interface Props extends SelectProps {
+interface Props extends Omit<SelectProps, 'value' | 'defaultValue'> {
   label: string;
   placeholder?: string;
   option: Option[] | JSX.Element[];
+  value: string | number | undefined;
+  defaultValue?: string | number;
 }
 
 const typeofOption = (object: any): object is Option => {
@@ -32,7 +34,12 @@ export const FormSelect = forwardRef<HTMLDivElement, Props>(
       <FormLabel>{label}</FormLabel>
 
       <FormControl>
-        <Select {...props} onValueChange={onValueChange} defaultValue={value} value={value}>
+        <Select
+          {...props}
+          onValueChange={onValueChange}
+          defaultValue={value?.toString()}
+          value={value?.toString()}
+        >
           <FormControl>
             <SelectTrigger>
               <SelectValue placeholder={placeholder} />

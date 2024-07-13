@@ -1,5 +1,3 @@
-/* eslint-disable indent */
-
 'use client';
 
 import { Button } from '~/components/ui/button';
@@ -87,13 +85,11 @@ export const AddAreaDialog = () => {
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       option={
-                        dataAreaTypes.length
-                          ? dataAreaTypes.map((t) => (
-                              <SelectItem key={t.id} value={t.id.toString()}>
-                                <Badge style={{ background: t.color }}>{t.name}</Badge>
-                              </SelectItem>
-                            ))
-                          : []
+                        dataAreaTypes?.map((t) => (
+                          <SelectItem key={t.id} value={t.id.toString()}>
+                            <Badge style={{ background: t.color }}>{t.name}</Badge>
+                          </SelectItem>
+                        )) ?? []
                       }
                       disabled={!dataAreaTypes.length}
                       label="Type"
