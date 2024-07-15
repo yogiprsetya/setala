@@ -18,7 +18,7 @@ import { FormIcon } from '~/components/pattern/FormIcon';
 import { useAreaTypeService } from '~/services/use-area-type';
 import { SelectItem } from '~/components/ui/select';
 import { Badge } from '~/components/ui/badge';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { If } from '~/components/ui/if';
 import { FormSkeleton } from '~/components/pattern/FormSkeleton';
 import { useAreaService } from '~/services/use-area';
@@ -31,7 +31,11 @@ const formSchema = z.object({
   icon: z.string(),
 });
 
-export const AddAreaDialog = () => {
+type Props = {
+  trigger: ReactNode;
+};
+
+export const AddAreaDialog = (props: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -58,9 +62,7 @@ export const AddAreaDialog = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button>Add new</Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{props.trigger}</DialogTrigger>
 
       <DialogContent>
         <DialogHeader>Add new area</DialogHeader>
