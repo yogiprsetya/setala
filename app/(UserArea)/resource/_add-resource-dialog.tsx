@@ -17,33 +17,18 @@ import { useForm } from 'react-hook-form';
 import { Form, FormField, FormItem, FormLabel } from '~/components/ui/form';
 import { FormInput } from '~/components/pattern/FormInput';
 import { DatePicker } from '~/components/ui/date-picker';
-import { useAreaService } from '~/services/use-area';
-import { FormSkeleton } from '~/components/pattern/FormSkeleton';
-import { FormSelect } from '~/components/pattern/FormSelect';
-import { SelectItem } from '~/components/ui/select';
-import { AttributeIcon } from '~/constant/attribute-icon';
-
-const formSchema = z.object({
-  title: z.string().min(1),
-  url: z.string(),
-  publish_date: z.date(),
-  area_id: z.number(),
-  project_ids: z.number(),
-  topic_ids: z.number(),
-  content_type_id: z.number(),
-});
+import { FormSelectArea } from '~/components/pattern/FormSelectArea';
+import { formResourceInputValidate } from '~/schema/resource';
 
 export const AddResourceDialog = () => {
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { dataArea, loadingArea } = useAreaService({ disabled: !open });
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof formResourceInputValidate>>({
+    resolver: zodResolver(formResourceInputValidate),
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formResourceInputValidate>) => {
     setIsSubmitting(true);
     // const isSuccess = await createArea({ ...values, typeId: Number(values.type_id) });
     console.log(values);
@@ -105,36 +90,7 @@ export const AddResourceDialog = () => {
             </div>
 
             <div className="space-y-4">
-              <If condition={!loadingArea} fallback={<FormSkeleton />}>
-                <FormField
-                  control={form.control}
-                  name="area_id"
-                  render={({ field }) => (
-                    <FormSelect
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      option={
-                        dataArea?.map((t) => {
-                          const IconLabel = AttributeIcon[t.icon];
-
-                          return (
-                            <SelectItem key={t.id} value={t.id.toString()}>
-                              <div className="flex gap-2 items-center">
-                                <IconLabel className="w-4 h-4" />
-                                {t.name}
-                              </div>
-                            </SelectItem>
-                          );
-                        }) ?? []
-                      }
-                      disabled={!dataArea.length}
-                      label="Area"
-                      placeholder="Select section area"
-                      {...field}
-                    />
-                  )}
-                />
-              </If>
+              <FormSelectArea disableFetch={!open} control={form.control} />
             </div>
           </form>
         </Form>

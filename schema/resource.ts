@@ -1,4 +1,5 @@
 import { serial, text, timestamp, pgTable, integer, boolean, date } from 'drizzle-orm/pg-core';
+import { z } from 'zod';
 import { area } from './area';
 import { contentType } from './content-type';
 
@@ -17,4 +18,14 @@ export const resource = pgTable('resource', {
   topicIds: integer('project_ids').array().notNull(),
   contentTypeId: integer('content_type_id').references(() => contentType.id),
   isArchive: boolean('is_archive'),
+});
+
+export const formResourceInputValidate = z.object({
+  title: z.string().min(1),
+  url: z.string(),
+  publish_date: z.date(),
+  area_id: z.number(),
+  project_ids: z.number(),
+  topic_ids: z.number(),
+  content_type_id: z.number(),
 });
