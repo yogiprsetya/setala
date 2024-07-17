@@ -20,9 +20,9 @@ import { SelectItem } from '~/components/ui/select';
 import { Badge } from '~/components/ui/badge';
 import { ReactNode, useState } from 'react';
 import { If } from '~/components/ui/if';
-import { FormSkeleton } from '~/components/pattern/FormSkeleton';
 import { useAreaService } from '~/services/use-area';
 import { LoadingState } from '~/components/ui/loading-state';
+import { FormDataFallback } from '~/components/compose/FormDataFallback';
 import { AddAreaTypeDialog } from './_add-area-type-dialog';
 
 const formSchema = z.object({
@@ -77,37 +77,35 @@ export const AddAreaDialog = (props: Props) => {
               )}
             />
 
-            <div className="flex gap-2 items-end">
-              <If condition={!loadingAreaTypes} fallback={<FormSkeleton />}>
-                <FormField
-                  control={form.control}
-                  name="type_id"
-                  render={({ field }) => (
-                    <FormSelect
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      option={
-                        dataAreaTypes?.map((t) => (
-                          <SelectItem key={t.id} value={t.id.toString()}>
-                            <Badge style={{ background: t.color }}>{t.name}</Badge>
-                          </SelectItem>
-                        )) ?? []
-                      }
-                      disabled={!dataAreaTypes.length}
-                      label="Type"
-                      placeholder={
-                        dataAreaTypes.length ? 'Select section area' : 'Please add area type first'
-                      }
-                      {...field}
-                    />
-                  )}
-                />
-              </If>
+            <FormDataFallback isReady={!loadingAreaTypes}>
+              <FormField
+                control={form.control}
+                name="type_id"
+                render={({ field }) => (
+                  <FormSelect
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    option={
+                      dataAreaTypes?.map((t) => (
+                        <SelectItem key={t.id} value={t.id.toString()}>
+                          <Badge style={{ background: t.color }}>{t.name}</Badge>
+                        </SelectItem>
+                      )) ?? []
+                    }
+                    disabled={!dataAreaTypes.length}
+                    label="Type"
+                    placeholder={
+                      dataAreaTypes.length ? 'Select section area' : 'Please add area type first'
+                    }
+                    {...field}
+                  />
+                )}
+              />
 
               <AddAreaTypeDialog
                 onSuccess={(id) => form.setValue('type_id', id, { shouldValidate: true })}
               />
-            </div>
+            </FormDataFallback>
 
             <FormField
               control={form.control}

@@ -53,7 +53,7 @@ export const AddResourceDialog = () => {
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             id="add-resource-form"
-            className="grid grid-cols-2 gap-4"
+            className="grid grid-cols-2 gap-6"
           >
             <div className="space-y-4">
               <FormField
@@ -80,7 +80,7 @@ export const AddResourceDialog = () => {
                 control={form.control}
                 name="publish_date"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col">
+                  <FormItem>
                     <FormLabel>Publish Date</FormLabel>
 
                     <DatePicker selected={field.value} onSelect={field.onChange} />
