@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { If } from '../ui/if';
-import { FormSkeleton } from '../pattern/FormSkeleton';
+import { FormSkeleton } from './FormSkeleton';
 
 type Props = {
   isReady: boolean;

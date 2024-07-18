@@ -22,7 +22,7 @@ import { ReactNode, useState } from 'react';
 import { If } from '~/components/ui/if';
 import { useAreaService } from '~/services/use-area';
 import { LoadingState } from '~/components/ui/loading-state';
-import { FormDataFallback } from '~/components/compose/FormDataFallback';
+import { FormDataFallback } from '~/components/pattern/FormDataFallback';
 import { AddAreaTypeDialog } from './_add-area-type-dialog';
 
 const formSchema = z.object({

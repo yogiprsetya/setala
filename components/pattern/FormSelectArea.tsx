@@ -13,7 +13,7 @@ import { FormFieldContext } from '../ui/form';
 import { FormSelect } from './FormSelect';
 import { SelectItem } from '../ui/select';
 import { Button } from '../ui/button';
-import { FormDataFallback } from '../compose/FormDataFallback';
+import { FormDataFallback } from './FormDataFallback';
 
 type ApiProps = {
   disableFetch: boolean;

@@ -19,6 +19,7 @@ import { FormInput } from '~/components/pattern/FormInput';
 import { DatePicker } from '~/components/ui/date-picker';
 import { FormSelectArea } from '~/components/pattern/FormSelectArea';
 import { formResourceInputValidate } from '~/schema/resource';
+import { SelectTags } from '~/components/pattern/SelectTags';
 
 export const AddResourceDialog = () => {
   const [open, setOpen] = useState(false);
@@ -91,6 +92,8 @@ export const AddResourceDialog = () => {
 
             <div className="space-y-4">
               <FormSelectArea disableFetch={!open} control={form.control} />
+
+              <SelectTags control={form.control} name="tags" />
             </div>
           </form>
         </Form>
