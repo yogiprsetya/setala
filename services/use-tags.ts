@@ -13,6 +13,7 @@ export const useTagsService = (opt?: Options) => {
 
   return {
     dataTags: data?.data ?? [],
+    isTagsEmpty: !data?.data?.length,
     loadingTags: isLoading,
   };
 };
