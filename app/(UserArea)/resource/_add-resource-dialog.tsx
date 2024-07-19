@@ -93,7 +93,7 @@ export const AddResourceDialog = () => {
             <div className="space-y-4">
               <FormSelectArea disableFetch={!open} control={form.control} />
 
-              <SelectTags control={form.control} name="tags" />
+              <SelectTags disableFetch={!open} control={form.control} />
             </div>
           </form>
         </Form>

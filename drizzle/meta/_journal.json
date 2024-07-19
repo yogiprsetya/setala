@@ -5,8 +5,36 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1720490840676,
-      "tag": "0000_little_zarek",
+      "when": 1721272866161,
+      "tag": "0000_broken_hercules",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1721274389242,
+      "tag": "0001_complex_weapon_omega",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1721276092115,
+      "tag": "0002_wise_ogun",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1721348431164,
+      "tag": "0003_equal_crystal",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1721348480339,
+      "tag": "0004_colossal_mandroid",
       "breakpoints": true
     }
   ]

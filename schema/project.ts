@@ -2,9 +2,6 @@ import { serial, text, timestamp, pgTable, integer, boolean, date } from 'drizzl
 import { area } from './area';
 
 export const project = pgTable('project', {
-  createdAt: timestamp('created_at'),
-  updatedAt: timestamp('updated_at'),
-
   id: serial('id').primaryKey(),
   userId: integer('user_id'),
 
@@ -14,4 +11,7 @@ export const project = pgTable('project', {
   isArchive: boolean('is_archive'),
   startSprint: date('start_sprint'),
   deadlineSrprint: date('deadline_sprint'),
+
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });

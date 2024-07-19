@@ -19,8 +19,8 @@ export const resource = pgTable('resource', {
     .array(),
   contentTypeId: integer('content_type_id').references(() => contentType.id),
 
-  createdAt: timestamp('created_at'),
-  updatedAt: timestamp('updated_at'),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });
 
 export const formResourceInputValidate = z.object({
@@ -28,8 +28,7 @@ export const formResourceInputValidate = z.object({
   url: z.string(),
   publish_date: z.date(),
   area_id: z.number(),
-  project_ids: z.number(),
-  topic_ids: z.number(),
+  tags: z.number(),
   content_type_id: z.number(),
 });
 

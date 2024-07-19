@@ -47,17 +47,25 @@ CREATE TABLE IF NOT EXISTS "project" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "resource" (
-	"created_at" timestamp,
-	"updated_at" timestamp,
 	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" integer,
+	"user_id" text NOT NULL,
 	"title" text,
 	"url" text,
 	"publish_date" date,
 	"area_id" integer,
-	"project_ids" integer[] NOT NULL,
+	"is_archive" boolean,
+	"tags" integer[],
 	"content_type_id" integer,
-	"is_archive" boolean
+	"created_at" timestamp,
+	"updated_at" timestamp
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "tags" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"user_id" integer,
+	"name" text NOT NULL,
+	"created_at" timestamp,
+	"updated_at" timestamp
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "task" (
@@ -69,15 +77,6 @@ CREATE TABLE IF NOT EXISTS "task" (
 	"is_archive" text,
 	"project_id" integer,
 	"status" "status"
-);
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "topic" (
-	"created_at" timestamp,
-	"updated_at" timestamp,
-	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" integer,
-	"name" text,
-	"color" text
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "account" (

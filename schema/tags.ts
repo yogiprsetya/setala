@@ -1,19 +1,19 @@
-import { serial, text, timestamp, pgTable, integer } from 'drizzle-orm/pg-core';
+import { serial, text, timestamp, pgTable } from 'drizzle-orm/pg-core';
 import { createInsertSchema } from 'drizzle-zod';
 
-export const tags = pgTable('topic', {
+export const tags = pgTable('tags', {
   id: serial('id').primaryKey(),
-  userId: integer('user_id'),
+  userId: text('user_id'),
 
-  tag: text('name').notNull(),
+  tag: text('tag').notNull(),
 
-  createdAt: timestamp('created_at'),
-  updatedAt: timestamp('updated_at'),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });
 
-export const topicReqSchema = createInsertSchema(tags).pick({ tag: true });
+export const tagsReqSchema = createInsertSchema(tags).pick({ tag: true });
 
-export const topicSelectSchema = {
+export const tagsSelectSchema = {
   id: tags.id,
   tag: tags.tag,
 };

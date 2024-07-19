@@ -6,13 +6,13 @@ type Options = {
   disabled?: boolean;
 };
 
-export const useTopicService = (opt?: Options) => {
+export const useTagsService = (opt?: Options) => {
   const { data, isLoading, mutate } = useSWR<HttpRequest<Tags[]>, Error>(
-    opt?.disabled ? null : 'resource',
+    opt?.disabled ? null : 'tags',
   );
 
   return {
-    dataTopic: data?.data || [],
-    loadingTopic: isLoading,
+    dataTags: data?.data ?? [],
+    loadingTags: isLoading,
   };
 };
