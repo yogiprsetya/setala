@@ -13,7 +13,7 @@ import { If } from '~/components/ui/if';
 import { LoadingState } from '~/components/ui/loading-state';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { Form, FormField, FormItem, FormLabel } from '~/components/ui/form';
 import { FormInput } from '~/components/pattern/FormInput';
 import { DatePicker } from '~/components/ui/date-picker';
@@ -27,6 +27,10 @@ export const AddResourceDialog = () => {
 
   const form = useForm<z.infer<typeof formResourceInputValidate>>({
     resolver: zodResolver(formResourceInputValidate),
+    defaultValues: {
+      title: '',
+      url: '',
+    },
   });
 
   const onSubmit = async (values: z.infer<typeof formResourceInputValidate>) => {
@@ -61,7 +65,7 @@ export const AddResourceDialog = () => {
                 control={form.control}
                 name="title"
                 render={({ field }) => (
-                  <FormInput label="Title" placeholder="Resource title" {...field} />
+                  <FormInput {...field} label="Title" placeholder="Resource title" />
                 )}
               />
 
@@ -70,9 +74,9 @@ export const AddResourceDialog = () => {
                 name="url"
                 render={({ field }) => (
                   <FormInput
+                    {...field}
                     label="Resource URL"
                     placeholder="Provide a valid URL or leave empty"
-                    {...field}
                   />
                 )}
               />

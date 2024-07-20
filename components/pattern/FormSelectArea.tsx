@@ -36,7 +36,7 @@ export const FormSelectArea = <
           name={'area_id' as TName}
           render={({ field }) => (
             <FormSelect
-              onValueChange={field.onChange}
+              onValueChange={(d) => field.onChange(Number(d))}
               defaultValue={field.value}
               option={
                 dataArea?.map((t) => {

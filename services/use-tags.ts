@@ -35,10 +35,30 @@ export const useTagsService = (opt?: Options) => {
     [data, mutate],
   );
 
+  const deleteTag = useCallback(
+    async (id: number) => {
+      if (!data?.data) return false;
+
+      const result = await fetchClient<HttpRequest<Tags>>(`${ENDPOINT}/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (result.success) {
+        const newData = data.data.filter((tag) => tag.id !== id);
+        mutate({ ...data, data: newData }, { revalidate: false });
+        return !!result.data;
+      }
+
+      return result.success;
+    },
+    [data, mutate],
+  );
+
   return {
     dataTags: data?.data ?? [],
     isTagsEmpty: !data?.data?.length,
     loadingTags: isLoading,
     createTag,
+    deleteTag,
   };
 };

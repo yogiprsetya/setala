@@ -28,8 +28,8 @@ export const formResourceInputValidate = z.object({
   url: z.string(),
   publish_date: z.date(),
   area_id: z.number(),
-  tags: z.number(),
-  content_type_id: z.number(),
+  tags: z.number().array(),
+  // content_type_id: z.number(),
 });
 
 // export const resourceSelectSchema = {
