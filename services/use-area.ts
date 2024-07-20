@@ -26,7 +26,7 @@ export const useAreaService = (opt?: Options) => {
       });
 
       if (result.success) {
-        mutate({ ...data, data: [...data.data, result.data] });
+        mutate({ ...data, data: [...data.data, result.data] }, { revalidate: false });
         return !!result.data;
       }
 

@@ -8,6 +8,9 @@ export const SWRProvider = ({ children }: { children: ReactNode }) => (
   <SWRConfig
     value={{
       refreshInterval: 0,
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
       fetcher: fetchClient,
     }}
   >
