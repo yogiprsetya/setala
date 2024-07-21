@@ -2,7 +2,6 @@ import { serial, text, timestamp, pgTable, integer, boolean, date } from 'drizzl
 import { z } from 'zod';
 import { area } from './area';
 import { contentType } from './content-type';
-import { areaTypeSelectSchema } from './area-type';
 import { tags } from './tags';
 
 export const resource = pgTable('resource', {
@@ -29,7 +28,7 @@ export const formResourceInputValidate = z.object({
   publish_date: z.date(),
   area_id: z.number(),
   tags: z.number().array(),
-  // content_type_id: z.number(),
+  content_type_id: z.number().min(1),
 });
 
 // export const resourceSelectSchema = {

@@ -13,13 +13,14 @@ import { If } from '~/components/ui/if';
 import { LoadingState } from '~/components/ui/loading-state';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Form, FormField, FormItem, FormLabel } from '~/components/ui/form';
 import { FormInput } from '~/components/pattern/FormInput';
 import { DatePicker } from '~/components/ui/date-picker';
 import { FormSelectArea } from '~/components/pattern/FormSelectArea';
 import { formResourceInputValidate } from '~/schema/resource';
 import { SelectTags } from '~/components/pattern/SelectTags';
+import { AddContentTypeDialog } from './_add-content-type-dialog';
 
 export const AddResourceDialog = () => {
   const [open, setOpen] = useState(false);
@@ -90,6 +91,17 @@ export const AddResourceDialog = () => {
 
                     <DatePicker selected={field.value} onSelect={field.onChange} />
                   </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="content_type_id"
+                render={({ field }) => (
+                  <AddContentTypeDialog
+                    onSuccess={(id) => form.setValue('content_type_id', id)}
+                    {...field}
+                  />
                 )}
               />
             </div>
