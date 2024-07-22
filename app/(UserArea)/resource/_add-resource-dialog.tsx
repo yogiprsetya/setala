@@ -42,7 +42,7 @@ export const AddResourceDialog = () => {
     // if (isSuccess) {
     //   form.reset();
     //   setOpen(false);
-    //   setIsSubmitting(false);
+    setIsSubmitting(false);
     // }
   };
 

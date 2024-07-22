@@ -18,6 +18,5 @@ export const areaTypeSelectSchema = {
   id: areaType.id,
   name: areaType.name,
   color: areaType.color,
-  createdAt: areaType.createdAt,
   updatedAt: areaType.updatedAt,
 };
