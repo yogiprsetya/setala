@@ -1,26 +1,73 @@
 import { db } from '~/config/db';
 import { requireAuth } from 'api-lib/auth';
-import { resource } from '~/schema/resource';
-import { eq } from 'drizzle-orm';
+import { resource, resourceReqSchema, resourceSelectSchema } from '~/schema/resource';
+import { eq, inArray } from 'drizzle-orm';
 import { handleSuccessResponse } from 'api-lib/handle-success-response';
 import { handleExpiredSession, handleInvalidRequest } from 'api-lib/handle-error-response';
-import { tags } from '~/schema/tags';
+import { NextRequest } from 'next/server';
+import { bodyParse } from 'api-lib/body-parse';
+import { contentType } from '~/schema/content-type';
+import { area } from '~/schema/area';
+import { tags, tagsSelectSchema } from '~/schema/tags';
 
 const GET = async () => {
   return requireAuth(async (session) => {
     if (session) {
-      const result = await db
-        .select()
+      const resources = await db
+        .select(resourceSelectSchema)
         .from(resource)
-        // .innerJoin(tags, eq(resource.tags, tags.id))
-        .where(eq(resource.userId, session.user.id))
-        .then((data) => data);
+        .innerJoin(area, eq(resource.areaId, area.id))
+        .innerJoin(contentType, eq(resource.contentTypeId, contentType.id))
+        .where(eq(resource.userId, session.user.id));
 
-      return handleSuccessResponse(result);
+      const tagsData = await Promise.all(
+        resources.map((resourceData) => {
+          if (resourceData.tags) {
+            return db
+              .select(tagsSelectSchema)
+              .from(tags)
+              .where(inArray(tags.id, resourceData.tags));
+          }
+
+          return [];
+        }),
+      );
+
+      return handleSuccessResponse(
+        resources.map((v) => ({
+          ...v,
+          tags: tagsData.flatMap((tag) => tag),
+        })),
+      );
     }
 
     return handleExpiredSession();
   });
 };
 
-export { GET };
+const POST = async (req: NextRequest) => {
+  const body = await bodyParse(req);
+  const schema = resourceReqSchema.safeParse(body);
+
+  if (!schema.success) {
+    return handleInvalidRequest(schema.error);
+  }
+
+  return requireAuth(async (session) => {
+    if (session) {
+      const result = await db
+        .insert(resource)
+        .values({
+          ...body,
+          userId: session.user.id,
+        })
+        .returning();
+
+      return handleSuccessResponse(result[0]);
+    }
+
+    return handleExpiredSession();
+  });
+};
+
+export { GET, POST };
