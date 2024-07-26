@@ -20,6 +20,7 @@ import { DatePicker } from '~/components/ui/date-picker';
 import { FormSelectArea } from '~/components/pattern/FormSelectArea';
 import { formResourceInputValidate } from '~/schema/resource';
 import { SelectTags } from '~/components/pattern/SelectTags';
+import { Rating } from '~/components/ui/rating';
 import { AddContentTypeDialog } from './_add-content-type-dialog';
 
 export const AddResourceDialog = () => {
@@ -110,6 +111,8 @@ export const AddResourceDialog = () => {
               <FormSelectArea disableFetch={!open} control={form.control} />
 
               <SelectTags disableFetch={!open} control={form.control} />
+
+              <Rating label="Rating" description="(Optional) you can rate the resource later." />
             </div>
           </form>
         </Form>
