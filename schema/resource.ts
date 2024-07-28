@@ -39,7 +39,7 @@ export const formResourceInputValidate = z.object({
   url: z.string(),
   publish_date: z.date(),
   area_id: z.number(),
-  tags: z.number().array(),
+  tags: z.number().array().optional(),
   content_type_id: z.number().min(1),
   rating: z.number().min(1).max(5),
 });

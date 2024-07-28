@@ -16,7 +16,8 @@ interface Props extends InputProps {
 
 export const Rating = forwardRef<HTMLInputElement, Props>(
   ({ label, description, ...props }, ref) => {
-    const { setValue, getValues } = useFormContext();
+    const { setValue, watch } = useFormContext();
+    const currentValue = watch('rating');
 
     return (
       <FormItem ref={ref}>
@@ -26,17 +27,17 @@ export const Rating = forwardRef<HTMLInputElement, Props>(
           <Input {...props} className="hidden" />
         </FormControl>
 
-        <div className={cn('flex gap-1 cursor-pointer')}>
+        <div className='flex gap-1 cursor-pointer'>
           <TooltipProvider>
             {values.map((v) => (
               <Tooltip key={v}>
                 <TooltipTrigger asChild>
                   <button
                     type="button"
-                    disabled={getValues('rating') === v.toString()}
+                    disabled={currentValue === v.toString()}
                     onClick={() => setValue('rating', v)}
                   >
-                    <Star className="text-gold" />
+                    <Star className={cn('text-gold', { 'fill-gold': currentValue >= v })} />
                   </button>
                 </TooltipTrigger>
 
@@ -51,7 +52,7 @@ export const Rating = forwardRef<HTMLInputElement, Props>(
         </If>
 
         <FormMessage />
-      </FormItem>
+      </FormItem >
     );
   },
 );

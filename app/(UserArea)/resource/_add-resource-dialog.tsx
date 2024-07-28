@@ -100,6 +100,8 @@ export const AddResourceDialog = () => {
                 name="content_type_id"
                 render={({ field }) => (
                   <AddContentTypeDialog
+                    onValueChange={(d) => field.onChange(Number(d))}
+                    defaultValue={field.value}
                     onSuccess={(id) => form.setValue('content_type_id', id)}
                     {...field}
                   />
