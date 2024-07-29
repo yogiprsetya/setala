@@ -8,7 +8,7 @@ import { NextRequest } from 'next/server';
 import { bodyParse } from 'api-lib/body-parse';
 import { contentType } from '~/schema/content-type';
 import { area } from '~/schema/area';
-import { tags, tagsSelectSchema } from '~/schema/tags';
+import { Tags, tags, tagsSelectSchema } from '~/schema/tags';
 
 const GET = async () => {
   return requireAuth(async (session) => {
@@ -47,14 +47,20 @@ const GET = async () => {
 
 const POST = async (req: NextRequest) => {
   const body = await bodyParse(req);
-  const schema = resourceReqSchema.safeParse(body);
+  const { success, data, error } = resourceReqSchema.safeParse(body);
 
-  if (!schema.success) {
-    return handleInvalidRequest(schema.error);
+  if (!success) {
+    return handleInvalidRequest(error);
   }
 
   return requireAuth(async (session) => {
+    let dataTags: Pick<Tags, 'id' | 'tag'>[] = [];
+
     if (session) {
+      if (data.tags?.length) {
+        dataTags = await db.select(tagsSelectSchema).from(tags).where(inArray(tags.id, data.tags));
+      }
+
       const result = await db
         .insert(resource)
         .values({
@@ -63,7 +69,10 @@ const POST = async (req: NextRequest) => {
         })
         .returning();
 
-      return handleSuccessResponse(result[0]);
+      return handleSuccessResponse({
+        ...result[0],
+        tags: dataTags,
+      });
     }
 
     return handleExpiredSession();

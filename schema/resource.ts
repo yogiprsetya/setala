@@ -24,6 +24,25 @@ export const resource = pgTable('resource', {
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });
 
+export type Resource = typeof resource.$inferSelect;
+
+export interface IResource extends Omit<Resource, 'tags' | 'userId' | 'areas' | 'contentType'> {
+  tags: Array<{
+    id: number;
+    name: string;
+  }>;
+  areas: {
+    id: number;
+    name: string;
+    icon: string;
+  };
+  contentType: {
+    id: number;
+    name: string;
+    color: string;
+  };
+}
+
 export const resourceReqSchema = createInsertSchema(resource).pick({
   title: true,
   url: true,

@@ -21,11 +21,14 @@ import { FormSelectArea } from '~/components/pattern/FormSelectArea';
 import { formResourceInputValidate } from '~/schema/resource';
 import { SelectTags } from '~/components/pattern/SelectTags';
 import { Rating } from '~/components/ui/rating';
+import { useResources } from '~/services/use-resources';
 import { AddContentTypeDialog } from './_add-content-type-dialog';
 
 export const AddResourceDialog = () => {
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { createResource } = useResources({ disabled: !open });
 
   const form = useForm<z.infer<typeof formResourceInputValidate>>({
     resolver: zodResolver(formResourceInputValidate),
@@ -37,14 +40,21 @@ export const AddResourceDialog = () => {
 
   const onSubmit = async (values: z.infer<typeof formResourceInputValidate>) => {
     setIsSubmitting(true);
-    // const isSuccess = await createArea({ ...values, typeId: Number(values.type_id) });
-    console.log(values);
 
-    // if (isSuccess) {
-    //   form.reset();
-    //   setOpen(false);
-    setIsSubmitting(false);
-    // }
+    const isSuccess = await createResource({
+      ...values,
+      publishDate: values.publish_date?.toISOString(),
+      areaId: Number(values.area_id),
+      contentTypeId: Number(values.content_type_id),
+      isArchive: false,
+      tags: values.tags ?? [],
+    });
+
+    if (isSuccess) {
+      form.reset();
+      setOpen(false);
+      setIsSubmitting(false);
+    }
   };
 
   return (
