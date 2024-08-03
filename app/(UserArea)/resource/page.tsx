@@ -1,7 +1,7 @@
-import React from 'react';
 import { Input } from '~/components/ui/input';
 import { TitlePage } from '../_components/TitlePage';
 import { AddResourceDialog } from './_add-resource-dialog';
+import { DataResources } from './_data-resources';
 
 const ResourcePage = () => {
   return (
@@ -15,6 +15,8 @@ const ResourcePage = () => {
         <Input type="text" placeholder="search" />
         <AddResourceDialog />
       </div>
+
+      <DataResources />
     </>
   );
 };

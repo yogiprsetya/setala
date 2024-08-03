@@ -6,5 +6,5 @@ type Props = {
 };
 
 export const LoadingState = ({ className }: Props) => {
-  return <Loader className={cn('animate-spin', className)} />;
+  return <Loader className={cn('animate-spin w-4 h-4', className)} />;
 };

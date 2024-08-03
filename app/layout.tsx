@@ -4,6 +4,7 @@ import './globals.css';
 import { ThemeProvider } from 'next-themes';
 import { NextAuthProvider } from '~/components/layout/NextAuthProvider';
 import { SWRProvider } from '~/components/layout/SWRProvider';
+import { ShadcnProvider } from '~/components/layout/ShadcnProvider';
 
 const fontSans = Inter({
   subsets: ['latin'],
@@ -26,7 +27,9 @@ export default function RootLayout({
         <SWRProvider>
           <NextAuthProvider>
             <ThemeProvider attribute="class" defaultTheme="light">
-              {children}
+              <ShadcnProvider>
+                {children}
+              </ShadcnProvider>
             </ThemeProvider>
           </NextAuthProvider>
         </SWRProvider>

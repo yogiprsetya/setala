@@ -36,7 +36,10 @@ const GET = async () => {
       return handleSuccessResponse(
         resources.map((v) => ({
           ...v,
-          tags: tagsData.flatMap((tag) => tag),
+          tags: tagsData
+            .flatMap((t) => t)
+            .filter((tag) => v.tags?.includes(tag.id))
+            .filter((value, index, self) => self.findIndex((s) => s.id === value.id) === index),
         })),
       );
     }

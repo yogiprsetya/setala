@@ -1,6 +1,8 @@
 import { serial, text, timestamp, pgTable, integer, boolean, date } from 'drizzle-orm/pg-core';
 import { z } from 'zod';
 import { createInsertSchema } from 'drizzle-zod';
+import { AttributeColor } from '~/constant/attribute-color';
+import { AttributeIcon } from '~/constant/attribute-icon';
 import { area } from './area';
 import { contentType } from './content-type';
 import { tags } from './tags';
@@ -26,20 +28,21 @@ export const resource = pgTable('resource', {
 
 export type Resource = typeof resource.$inferSelect;
 
-export interface IResource extends Omit<Resource, 'tags' | 'userId' | 'areas' | 'contentType'> {
+export interface IResource
+  extends Omit<Resource, 'tags' | 'userId' | 'areas' | 'contentType' | 'areaId'> {
   tags: Array<{
     id: number;
-    name: string;
+    tag: string;
   }>;
   areas: {
     id: number;
     name: string;
-    icon: string;
+    icon: keyof typeof AttributeIcon;
   };
   contentType: {
     id: number;
     name: string;
-    color: string;
+    color: (typeof AttributeColor)[number];
   };
 }
 
@@ -66,6 +69,7 @@ export const formResourceInputValidate = z.object({
 export const resourceSelectSchema = {
   id: resource.id,
   title: resource.title,
+  url: resource.url,
   publishDate: resource.publishDate,
   areas: {
     id: area.id,
