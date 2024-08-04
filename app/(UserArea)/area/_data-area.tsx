@@ -35,9 +35,7 @@ const columns: ColumnDef<IAreaData>[] = [
     accessorKey: 'type',
     header: 'Type',
     cell: ({ row }) => (
-      <div className="flex items-center space-x-2">
-        <Badge style={{ background: row.original.type.color }}>{row.original.type.name}</Badge>
-      </div>
+      <Badge style={{ background: row.original.type.color }}>{row.original.type.name}</Badge>
     ),
   },
   {

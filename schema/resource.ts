@@ -29,7 +29,7 @@ export const resource = pgTable('resource', {
 export type Resource = typeof resource.$inferSelect;
 
 export interface IResource
-  extends Omit<Resource, 'tags' | 'userId' | 'areas' | 'contentType' | 'areaId'> {
+  extends Omit<Resource, 'tags' | 'userId' | 'isArchive' | 'contentTypeId' | 'areaId'> {
   tags: Array<{
     id: number;
     tag: string;

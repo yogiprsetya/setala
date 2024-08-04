@@ -7,9 +7,8 @@ import { DataTable } from '~/components/pattern/DataTable';
 import { format } from 'date-fns';
 import { AttributeIcon } from '~/constant/attribute-icon';
 import { Badge } from '~/components/ui/badge';
-import { Button } from '~/components/ui/button';
 import { If } from '~/components/ui/if';
-import { SquareArrowOutUpRight } from 'lucide-react';
+import { SquareArrowOutUpRight, Star } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip';
 
 const columns: ColumnDef<IResource>[] = [
@@ -17,29 +16,45 @@ const columns: ColumnDef<IResource>[] = [
     accessorKey: 'title',
     header: 'Title',
     cell: ({ row }) => (
-      <div className='flex gap-2 items-center'>
-        <span>{row.original.title}</span>
+      <div className='flex gap-4 flex-col'>
+        <strong>{row.original.title}</strong>
 
-        <If condition={row.original.url}>
-          {(url) => (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <a href={url} target='_blank'>
-                  <SquareArrowOutUpRight className='w-4 h-4' />
-                </a>
-              </TooltipTrigger>
+        <div className='flex gap-2 items-center'>
+          <If condition={row.original.url}>
+            {(url) => (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <a href={url} target='_blank'>
+                    <SquareArrowOutUpRight className='w-4 h-4' />
+                  </a>
+                </TooltipTrigger>
 
-              <TooltipContent>URL: {url}</TooltipContent>
-            </Tooltip>
-          )}
-        </If>
+                <TooltipContent>URL: {url}</TooltipContent>
+              </Tooltip>
+            )}
+          </If>
+
+          <If condition={row.original.publishDate}>
+            {(date) => (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <time>{format(date, 'MMMM dd, yyyy')}</time>
+                </TooltipTrigger>
+
+                <TooltipContent>Published date</TooltipContent>
+              </Tooltip>
+            )}
+          </If>
+
+          <div className='flex items-center ml-auto text-gold'>
+            {!row.original.rating
+              ? <Star className='w-4 h-4' />
+              : Array.from({ length: row.original.rating }, (_, i) => <Star key={i} className='fill-gold w-4 h-4' />)
+            }
+          </div>
+        </div>
       </div>
     ),
-  },
-  {
-    accessorKey: 'publishDate',
-    header: 'Publish Date',
-    cell: ({ row }) => row.original.publishDate && format(row.original.publishDate, 'MMMM dd, yyyy'),
   },
   {
     accessorKey: 'area',
@@ -61,6 +76,15 @@ const columns: ColumnDef<IResource>[] = [
     cell: ({ row }) => <div className='flex gap-1'>
       {row.original.tags.map((v) => <Badge variant='secondary' className='text-nowrap' key={v.id}>#{v.tag}</Badge>)}
     </div>,
+  },
+  {
+    accessorKey: 'contentType',
+    header: 'Content',
+    cell: ({ row }) => (
+      <Badge style={{ background: row.original.contentType.color }}>
+        {row.original.contentType.name}
+      </Badge>
+    ),
   },
 ];
 
