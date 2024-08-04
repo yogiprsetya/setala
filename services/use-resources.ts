@@ -25,7 +25,7 @@ export const useResources = (opt?: Options) => {
       });
 
       if (result.success) {
-        mutate({ ...data, data: [...data.data, result.data] }, { revalidate: false });
+        mutate();
         return !!result.data;
       }
 
