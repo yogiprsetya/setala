@@ -1,5 +1,5 @@
 import { SelectProps } from '@radix-ui/react-select';
-import { cloneElement, createElement, forwardRef, ReactElement } from 'react';
+import { cloneElement, forwardRef, ReactElement } from 'react';
 import { FormControl, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
 import {
   Select,
@@ -15,13 +15,16 @@ type Option = {
   label: string;
 };
 
-interface Props extends SelectProps {
+interface Props extends Omit<SelectProps, 'value' | 'defaultValue'> {
   label: string;
   placeholder?: string;
   option: Option[] | JSX.Element[];
+  value: string | number | undefined;
+  defaultValue?: string | number;
 }
 
 const typeofOption = (object: any): object is Option => {
+  if (!object || !object.length) return false;
   return 'value' in object[0];
 };
 
@@ -31,7 +34,12 @@ export const FormSelect = forwardRef<HTMLDivElement, Props>(
       <FormLabel>{label}</FormLabel>
 
       <FormControl>
-        <Select onValueChange={onValueChange} defaultValue={value} {...props}>
+        <Select
+          {...props}
+          onValueChange={onValueChange}
+          defaultValue={value?.toString()}
+          value={value?.toString()}
+        >
           <FormControl>
             <SelectTrigger>
               <SelectValue placeholder={placeholder} />

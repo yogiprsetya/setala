@@ -2,7 +2,7 @@ import useSWR from 'swr';
 import Error from 'next/error';
 import { useCallback } from 'react';
 import { areaType } from '~/schema/area-type';
-import { fetchClient } from '~/services/fetchClient';
+import { fetchClient } from '~/services/fetch-client';
 import { HttpRequest } from '~/@types/HttpRequest';
 
 type AreaType = typeof areaType.$inferSelect;
@@ -12,26 +12,24 @@ type Options = {
   disabled?: boolean;
 };
 
-export const useAreaType = (opt?: Options) => {
+export const useAreaTypeService = (opt?: Options) => {
   const { data, isLoading, mutate } = useSWR<HttpRequest<AreaType[]>, Error>(
     opt?.disabled ? null : 'area-type',
   );
 
   const createAreaType = useCallback(
     async (form: CreateParams) => {
-      if (!data?.data) return false;
-
       const result = await fetchClient<HttpRequest<AreaType>>('area-type', {
         method: 'POST',
         body: JSON.stringify(form),
       });
 
-      if (result.success) {
+      if (result.success && data?.data) {
         mutate({ ...data, data: [...data.data, result.data] });
-        return !!result.data;
+        return result;
       }
 
-      return result.success;
+      return result;
     },
     [data, mutate],
   );

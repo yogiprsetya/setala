@@ -6,7 +6,7 @@ import { contentType } from '~/schema/content-type';
 import { project } from '~/schema/project';
 import { resource } from '~/schema/resource';
 import { task } from '~/schema/task';
-import { topic } from '~/schema/topic';
+import { tags } from '~/schema/tags';
 import { sql } from '@vercel/postgres';
 import { users, accounts, sessions, verificationTokens } from '~/schema/users';
 
@@ -18,7 +18,7 @@ export const db = drizzle(sql, {
     project,
     resource,
     task,
-    topic,
+    tags,
     users,
     accounts,
     sessions,
