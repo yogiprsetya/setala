@@ -22,7 +22,7 @@ const GET = async () => {
 
       const tagsData = await Promise.all(
         resources.map((resourceData) => {
-          if (resourceData.tags) {
+          if (resourceData.tags?.length) {
             return db
               .select(tagsSelectSchema)
               .from(tags)

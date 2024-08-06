@@ -14,12 +14,14 @@ export const resource = pgTable('resource', {
   title: text('title'),
   url: text('url'),
   publishDate: date('publish_date'),
-  areaId: integer('area_id').references(() => area.id),
+  areaId: integer('area_id').references(() => area.id, { onDelete: 'set null' }),
   isArchive: boolean('is_archive'),
   tags: integer('tags')
-    .references(() => tags.id)
+    .references(() => tags.id, { onDelete: 'set null' })
     .array(),
-  contentTypeId: integer('content_type_id').references(() => contentType.id),
+  contentTypeId: integer('content_type_id').references(() => contentType.id, {
+    onDelete: 'set null',
+  }),
   rating: integer('rating'),
 
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),

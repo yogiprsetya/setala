@@ -35,9 +35,35 @@ export const useAreaService = (opt?: Options) => {
     [data, mutate],
   );
 
+  const deleteArea = useCallback(
+    async (id: number) => {
+      if (!data?.data) return false;
+
+      const result = await fetchClient<HttpRequest<IAreaData>>(`area/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (result.success) {
+        mutate(
+          {
+            ...data,
+            data: data.data.filter((v) => v.id !== id),
+          },
+          { revalidate: false },
+        );
+
+        return !!result.data;
+      }
+
+      return result.success;
+    },
+    [data, mutate],
+  );
+
   return {
     dataArea: data?.data || [],
     loadingArea: isLoading,
     createArea,
+    deleteArea,
   };
 };

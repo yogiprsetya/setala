@@ -3,18 +3,10 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { AttributeIcon } from '~/constant/attribute-icon';
 import { Badge } from '~/components/ui/badge';
-import { Button } from '~/components/ui/button';
 import { useAreaService } from '~/services/use-area';
 import { IAreaData } from '~/schema/area';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from '~/components/ui/dropdown-menu';
-import { Ellipsis } from 'lucide-react';
 import { DataTable } from '~/components/pattern/DataTable';
+import { RowExtraMenu } from './_row-extra-menu';
 
 const columns: ColumnDef<IAreaData>[] = [
   {
@@ -40,25 +32,13 @@ const columns: ColumnDef<IAreaData>[] = [
   },
   {
     header: 'Action',
-    cell: ({ row }) => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon">
-            <Ellipsis className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-
-        <DropdownMenuContent>
-          <DropdownMenuLabel>Edit</DropdownMenuLabel>
-          <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    ),
+    id: 'actions',
+    cell: ({ row }) => <RowExtraMenu row={row} />,
   },
 ];
 
 export const DataArea = () => {
-  const { dataArea } = useAreaService();
+  const { dataArea, loadingArea } = useAreaService();
 
-  return <DataTable columns={columns} data={dataArea} />;
+  return <DataTable columns={columns} data={dataArea} isLoading={loadingArea} />;
 };

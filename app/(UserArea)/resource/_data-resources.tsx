@@ -16,16 +16,16 @@ const columns: ColumnDef<IResource>[] = [
     accessorKey: 'title',
     header: 'Title',
     cell: ({ row }) => (
-      <div className='flex gap-4 flex-col'>
+      <div className="flex gap-4 flex-col">
         <strong>{row.original.title}</strong>
 
-        <div className='flex gap-2 items-center'>
+        <div className="flex gap-2 items-center">
           <If condition={row.original.url}>
             {(url) => (
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <a href={url} target='_blank'>
-                    <SquareArrowOutUpRight className='w-4 h-4' />
+                  <a href={url} target="_blank">
+                    <SquareArrowOutUpRight className="w-4 h-4" />
                   </a>
                 </TooltipTrigger>
 
@@ -46,11 +46,14 @@ const columns: ColumnDef<IResource>[] = [
             )}
           </If>
 
-          <div className='flex items-center ml-auto text-gold'>
-            {!row.original.rating
-              ? <Star className='w-4 h-4' />
-              : Array.from({ length: row.original.rating }, (_, i) => <Star key={i} className='fill-gold w-4 h-4' />)
-            }
+          <div className="flex items-center ml-auto text-gold">
+            {!row.original.rating ? (
+              <Star className="w-4 h-4" />
+            ) : (
+              Array.from({ length: row.original.rating }, (_, i) => (
+                <Star key={i} className="fill-gold w-4 h-4" />
+              ))
+            )}
           </div>
         </div>
       </div>
@@ -64,7 +67,7 @@ const columns: ColumnDef<IResource>[] = [
 
       return (
         <div className="flex items-center gap-1">
-          <IconLabel className='w-4 h-4' />
+          <IconLabel className="w-4 h-4" />
           {row.original.areas.name}
         </div>
       );
@@ -73,9 +76,15 @@ const columns: ColumnDef<IResource>[] = [
   {
     accessorKey: 'tags',
     header: 'Tags',
-    cell: ({ row }) => <div className='flex gap-1'>
-      {row.original.tags.map((v) => <Badge variant='secondary' className='text-nowrap' key={v.id}>#{v.tag}</Badge>)}
-    </div>,
+    cell: ({ row }) => (
+      <div className="flex gap-1">
+        {row.original.tags.map((v) => (
+          <Badge variant="secondary" className="text-nowrap" key={v.id}>
+            #{v.tag}
+          </Badge>
+        ))}
+      </div>
+    ),
   },
   {
     accessorKey: 'contentType',
@@ -90,6 +99,7 @@ const columns: ColumnDef<IResource>[] = [
 
 export const DataResources = () => {
   const { dataResource, loadingResource } = useResources();
+  console.log(dataResource);
 
   return <DataTable columns={columns} data={dataResource} isLoading={loadingResource} />;
 };
