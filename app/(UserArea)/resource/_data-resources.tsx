@@ -10,6 +10,7 @@ import { Badge } from '~/components/ui/badge';
 import { If } from '~/components/ui/if';
 import { SquareArrowOutUpRight, Star } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip';
+import { Text } from '~/components/ui/text';
 
 const columns: ColumnDef<IResource>[] = [
   {
@@ -63,6 +64,10 @@ const columns: ColumnDef<IResource>[] = [
     accessorKey: 'area',
     header: 'Area',
     cell: ({ row }) => {
+      if (!row.original.areas) {
+        return <Text tag="code">NULL</Text>;
+      }
+
       const IconLabel = AttributeIcon[row.original.areas.icon];
 
       return (
@@ -99,7 +104,6 @@ const columns: ColumnDef<IResource>[] = [
 
 export const DataResources = () => {
   const { dataResource, loadingResource } = useResources();
-  console.log(dataResource);
 
   return <DataTable columns={columns} data={dataResource} isLoading={loadingResource} />;
 };

@@ -15,6 +15,7 @@ export const textCompose = cva('', {
       large: 'text-lg font-semibold',
       small: 'text-sm font-medium leading-none',
       muted: 'text-sm text-muted-foreground',
+      code: 'relative rounded bg-muted px-[0.3rem] py-[0.2rem] text-sm',
     },
   },
 });
@@ -34,7 +35,8 @@ type Tag =
   | 'ul'
   | 'ol'
   | 'address'
-  | 'strong';
+  | 'strong'
+  | 'code';
 
 interface Props extends VariantProps<typeof textCompose> {
   tag?: Tag;
@@ -48,7 +50,11 @@ export const Text = forwardRef<any, Props>(
     const Comp = tag;
 
     return (
-      <Comp className={cn(textCompose({ variant }), className)} ref={ref} {...props}>
+      <Comp
+        className={cn(textCompose({ variant: tag === 'code' ? 'code' : variant }), className)}
+        ref={ref}
+        {...props}
+      >
         {children}
       </Comp>
     );

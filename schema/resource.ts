@@ -40,7 +40,7 @@ export interface IResource
     id: number;
     name: string;
     icon: keyof typeof AttributeIcon;
-  };
+  } | null;
   contentType: {
     id: number;
     name: string;
@@ -73,11 +73,12 @@ export const resourceSelectSchema = {
   title: resource.title,
   url: resource.url,
   publishDate: resource.publishDate,
-  areas: {
-    id: area.id,
-    name: area.name,
-    icon: area.icon,
-  },
+  areas:
+    {
+      id: area.id,
+      name: area.name,
+      icon: area.icon,
+    } || null,
   contentType: {
     id: contentType.id,
     name: contentType.name,

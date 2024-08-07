@@ -16,7 +16,7 @@ const GET = async () => {
       const resources = await db
         .select(resourceSelectSchema)
         .from(resource)
-        .innerJoin(area, eq(resource.areaId, area.id))
+        .leftJoin(area, eq(resource.areaId, area.id))
         .innerJoin(contentType, eq(resource.contentTypeId, contentType.id))
         .where(eq(resource.userId, session.user.id));
 
